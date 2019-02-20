@@ -1,7 +1,5 @@
 package heap;
 
-import java.util.Arrays;
-
 public class Heap {
     private Leaf root;
     private int size = 0;
@@ -57,6 +55,66 @@ public class Heap {
         }
     }
 
+    public void asMAXHeapify(Integer []Array){
+        if(Array.length > 0){
+            root = new Leaf(Array[0]);
+            for(int index = Array.length / 2; index >= 1; index--){
+                Array = buildMAXHeapify(Array, index);
+            }
+            asHeap(Array);
+        }
+    }
+
+    private Integer[] buildMAXHeapify(Integer []Array, int index){
+        int lch = index * 2;
+        int rch = index * 2 + 1;
+        int largest = index;
+        if(lch - 1 < Array.length && Array[index - 1] < Array[lch - 1]){
+            largest = lch;
+        }
+        if(rch - 1 < Array.length && Array[index - 1] < Array[rch - 1]){
+            largest = rch;
+        }
+        if(largest != index) {
+            swap(Array, index - 1, largest - 1);
+            buildMAXHeapify(Array, largest);
+        }
+        return Array;
+    }
+
+    public void asMINHeapify(Integer []Array){
+        if(Array.length > 0){
+            root = new Leaf(Array[0]);
+            for(int index = Array.length / 2; index >= 1; index--){
+                Array = buildMINHeapify(Array, index);
+            }
+            asHeap(Array);
+        }
+    }
+
+    private Integer[] buildMINHeapify(Integer []Array, int index){
+        int lch = index * 2;
+        int rch = index * 2 + 1;
+        int smallest = index;
+        if(lch - 1 < Array.length && Array[index - 1] > Array[lch - 1]){
+            smallest = lch;
+        }
+        if(rch - 1 < Array.length && Array[index - 1] > Array[rch - 1]){
+            smallest = rch;
+        }
+        if(smallest != index) {
+            swap(Array, index - 1, smallest - 1);
+            buildMINHeapify(Array, smallest);
+        }
+        return Array;
+    }
+
+    private void swap(Integer []Array, int fPos, int sPos){
+        Integer temp = Array[fPos];
+        Array[fPos] = Array[sPos];
+        Array[sPos] = temp;
+    }
+
     public Heap insertKEY(Leaf root, Integer key){
         size = size(root);
         Integer []Array = new Integer[size + 1];
@@ -91,13 +149,23 @@ public class Heap {
         return MAX;
     }
 
+    /* Working on the extracting the max element in the heap
     public void extractMAX(Leaf root){
         extractMAX(root, findMAX(root));
     }
 
-    private void extractMAX(Leaf root, Integer MAX){
-
+    private void extractMAX(Leaf leaf, Integer MAX){
+        if(leaf != null){
+            if(leaf.key.equals(MAX)) substituteKEY(leaf, leaf.key, 0);
+            if(Objects.requireNonNull(leaf).leftLeaf != null){
+                extractMAX(leaf.leftLeaf, MAX);
+            }
+            if(Objects.requireNonNull(leaf).rightLeaf != null){
+                extractMAX(leaf.rightLeaf, MAX);
+            }
+        }
     }
+    */
 
     public Heap substituteKEY(Leaf root, Integer key, Integer value){
         substitute(root, key, value);
@@ -117,6 +185,31 @@ public class Heap {
             }
         }
     }
+
+    /*  Working on the removing the key in the heap
+    public Heap removeKEY(Leaf root, Integer key){
+        remove(root, key);
+        return this;
+    }
+
+    private void remove(Leaf leaf, Integer key){
+        if(leaf != null){
+            if(leaf.leftLeaf != null){
+                if(leaf.leftLeaf.key.equals(key)) {
+                    leaf.leftLeaf = null;
+                } else {
+                    remove(leaf.leftLeaf, key);
+                }
+                if(leaf.rightLeaf.key.equals(key)){
+                    leaf.rightLeaf = null;
+                } else {
+                    remove(leaf.rightLeaf, key);
+                }
+
+            }
+        }
+    }
+    */
 
     public void showHeap(Leaf leaf){
         showHeap(leaf, 1);

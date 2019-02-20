@@ -19,5 +19,21 @@ public class App {
         });
         System.out.println("\n");
         heap.insertKEY(heap.getRoot(), 19).insertKEY(heap.getRoot(), 56).insertKEY(heap.getRoot(), -51).showHeap(heap.getRoot());
+
+        System.out.println();
+        Heap minHeapifiedHeap = new Heap();
+        minHeapifiedHeap.asMINHeapify(ints);
+        final Integer[] minArray = minHeapifiedHeap.asArray(minHeapifiedHeap.getRoot());
+        Arrays.asList(minArray).forEach(element -> {
+            System.out.print(element + " ");
+        });
+
+        System.out.println();
+        Heap maxHeapifiedHeap = new Heap();
+        maxHeapifiedHeap.asMAXHeapify(ints);
+        final Integer[] maxArray = maxHeapifiedHeap.asArray(maxHeapifiedHeap.getRoot());
+        Arrays.asList(maxArray).forEach(element -> {
+            System.out.print(element + " ");
+        });
     }
 }
