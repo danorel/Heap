@@ -251,6 +251,10 @@ public class Heap {
         return size;
     }
 
+    public void setSize(int size) {
+        this.size = size;
+    }
+
 
     public Leaf getRoot() {
         return root;

@@ -1,4 +1,5 @@
 import heap.Heap;
+import heap.sort.HeapSort;
 
 import java.util.Arrays;
 
@@ -32,6 +33,11 @@ public class App {
         Heap maxHeapifiedHeap = new Heap();
         maxHeapifiedHeap.asMAXHeapify(ints);
         final Integer[] maxArray = maxHeapifiedHeap.asArray(maxHeapifiedHeap.getRoot());
+        Arrays.asList(maxArray).forEach(element -> {
+            System.out.print(element + " ");
+        });
+        HeapSort.sortDESC(maxArray);
+        System.out.println();
         Arrays.asList(maxArray).forEach(element -> {
             System.out.print(element + " ");
         });
