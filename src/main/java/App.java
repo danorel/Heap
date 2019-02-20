@@ -17,5 +17,7 @@ public class App {
         Arrays.asList(arr).forEach(element -> {
             System.out.print(element + " ");
         });
+        System.out.println("\n");
+        heap.insertKEY(heap.getRoot(), 19).insertKEY(heap.getRoot(), 56).insertKEY(heap.getRoot(), -51).showHeap(heap.getRoot());
     }
 }

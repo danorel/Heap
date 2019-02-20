@@ -1,5 +1,7 @@
 package heap;
 
+import java.util.Arrays;
+
 public class Heap {
     private Leaf root;
     private int size = 0;
@@ -14,7 +16,6 @@ public class Heap {
 
     public Integer[] asArray(Leaf root){
         if(root != null){
-            size = 0;
             Integer []Array = new Integer[size(root)];
             Array[0] = root.key;
             return buildArray(root, 1, Array);
@@ -57,9 +58,21 @@ public class Heap {
     }
 
     public Heap insertKEY(Leaf root, Integer key){
-
+        size = size(root);
+        Integer []Array = new Integer[size + 1];
+        copyElementsFrom(root, Array);
+        Array[size] = key;
+        asHeap(Array);
         return this;
     }
+
+    private void copyElementsFrom(Leaf leaf, Integer[] into){
+        Integer []Array = asArray(leaf);
+        for(int index = 0; index < Array.length; index++) {
+            into[index] = Array[index];
+        }
+    }
+
 
     public int findMAX(Leaf root){
         return findMAX(root, root.key);
@@ -127,13 +140,19 @@ public class Heap {
     }
 
     public int size(Leaf leaf){
+        size = 0;
+        size = getSize(leaf);
+        return size;
+    }
+
+    private int getSize(Leaf leaf){
         if(leaf != null){
             size++;
             if(leaf.leftLeaf != null){
-                size(leaf.leftLeaf);
+                getSize(leaf.leftLeaf);
             }
             if(leaf.rightLeaf != null){
-                size(leaf.rightLeaf);
+                getSize(leaf.rightLeaf);
             }
         }
         return size;
