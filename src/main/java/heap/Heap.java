@@ -2,6 +2,7 @@ package heap;
 
 public class Heap {
     private Leaf root;
+    private int size = 0;
 
     public Heap(){
         root = new Leaf(0);
@@ -9,6 +10,30 @@ public class Heap {
 
     public Heap(Integer key){
         root = new Leaf(key);
+    }
+
+    public Integer[] asArray(Leaf root){
+        if(root != null){
+            size = 0;
+            Integer []Array = new Integer[size(root)];
+            Array[0] = root.key;
+            return buildArray(root, 1, Array);
+        }
+        return null;
+    }
+
+    private Integer[] buildArray(Leaf root, int index, Integer[] Array){
+        if(root != null) {
+            if(root.leftLeaf != null){
+                Array[index * 2 - 1] = root.leftLeaf.key;
+                Array = buildArray(root.leftLeaf, index * 2 , Array);
+            }
+            if(root.rightLeaf != null){
+                Array[index * 2] = root.rightLeaf.key;
+                Array = buildArray(root.rightLeaf, index * 2 + 1, Array);
+            }
+        }
+        return Array;
     }
 
     public void asHeap(Integer []Array){
@@ -36,21 +61,29 @@ public class Heap {
         return this;
     }
 
-    public int extractMAX(Leaf root){
-        return extractMAX(root, root.key);
+    public int findMAX(Leaf root){
+        return findMAX(root, root.key);
     }
 
-    private int extractMAX(Leaf leaf, Integer MAX){
+    private int findMAX(Leaf leaf, Integer MAX){
         if(leaf != null){
             if(leaf.key >= MAX) MAX = leaf.key;
             if(leaf.leftLeaf != null){
-                return extractMAX(leaf.leftLeaf, MAX);
+                MAX = findMAX(leaf.leftLeaf, MAX);
             }
             if(leaf.rightLeaf != null){
-                return extractMAX(leaf.rightLeaf, MAX);
+                MAX = findMAX(leaf.rightLeaf, MAX);
             }
         }
         return MAX;
+    }
+
+    public void extractMAX(Leaf root){
+        extractMAX(root, findMAX(root));
+    }
+
+    private void extractMAX(Leaf root, Integer MAX){
+
     }
 
     public Heap substituteKEY(Leaf root, Integer key, Integer value){
@@ -93,8 +126,27 @@ public class Heap {
         }
     }
 
+    public int size(Leaf leaf){
+        if(leaf != null){
+            size++;
+            if(leaf.leftLeaf != null){
+                size(leaf.leftLeaf);
+            }
+            if(leaf.rightLeaf != null){
+                size(leaf.rightLeaf);
+            }
+        }
+        return size;
+    }
+
+
     public Leaf getRoot() {
         return root;
+    }
+
+    @Override
+    public String toString() {
+        return root.toString();
     }
 
     private class Leaf {
